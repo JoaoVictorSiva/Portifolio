@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Lista de Usuários</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="4" *ngFor="let field of userFields">
+        <ion-item lines="full">
+          <ion-label position="stacked" color="primary">{{ field.label }}</ion-label>
+          <ion-input [placeholder]="field.placeholder" [(ngModel)]="field.model"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" class="ion-text-center">
+        <ion-button expand="block" color="secondary" (click)="createUser()">
+          <ion-icon name="add" slot="start"></ion-icon>
+          Adicionar Usuário
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-list>
+    <ion-item *ngFor="let user of userList" lines="full">
+      <ion-label *ngIf="!user.isEditing" color="tertiary">
+        <h2>{{ user.name }}</h2>
+        <p>Cidade: {{ user.cidade }}</p>
+        <p>Email: {{ user.email }}</p>
+      </ion-label>
+      <ng-container *ngIf="user.isEditing">
+        <ion-input placeholder="Nome" [(ngModel)]="user.editName"></ion-input>
+        <ion-input placeholder="Cidade" [(ngModel)]="user.editCidade"></ion-input>
+        <ion-input placeholder="Email" [(ngModel)]="user.editEmail"></ion-input>
+      </ng-container>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" color="warning" (click)="user.isEditing ? saveUser(user) : editUser(user)">
+          <ion-icon [name]="user.isEditing ? 'save' : 'create'"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" color="danger" (click)="deleteUser(user)">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
